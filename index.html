@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cavarino Farm Co Ltd - Record Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --jungle-green: #2E7D32;
+            --jungle-green-light: #4CAF50;
+            --jungle-green-dark: #1B5E20;
+            --yellow: #FFD600;
+            --yellow-light: #FFEB3B;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #424242;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--jungle-green);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--yellow);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--jungle-green-light);
+            color: var(--yellow);
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .welcome-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .welcome-section h2 {
+            color: var(--jungle-green);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome-section h2 i {
+            color: var(--yellow);
+        }
+
+        /* Animal Type Tabs */
+        .animal-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            animation: slideUp 0.7s ease;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--white);
+            border: 1px solid var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab:hover {
+            background-color: var(--jungle-green-light);
+            color: var(--white);
+        }
+
+        .tab.active {
+            background-color: var(--jungle-green);
+            color: var(--white);
+            border-color: var(--jungle-green);
+        }
+
+        .tab i {
+            font-size: 1.2rem;
+        }
+
+        /* Data Cards Section */
+        .data-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1s ease;
+        }
+
+        .section-title {
+            color: var(--jungle-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--yellow);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 5px solid var(--jungle-green);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--jungle-green);
+            color: var(--yellow);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--jungle-green-dark);
+        }
+
+        .card-description {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-button {
+            background-color: var(--jungle-green);
+            color: var(--white);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card-button:hover {
+            background-color: var(--jungle-green-dark);
+        }
+
+        .card-button i {
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--jungle-green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <h1>Cavarino Farm Co Ltd</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Dashboard</a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="welcome-section">
+                <h2><i class="fas fa-chart-line"></i> Farm Record Management System</h2>
+                <p>Welcome to Cavarino Farm's comprehensive record management system. Track and manage all your livestock data efficiently. Select an animal type below to view and update records.</p>
+            </section>
+
+            <div class="animal-tabs">
+                <div class="tab active" data-animal="pigs">
+                    <i class="fas fa-piggy-bank"></i>
+                    <span>Pigs</span>
+                </div>
+                <div class="tab" data-animal="fish">
+                    <i class="fas fa-fish"></i>
+                    <span>Fish</span>
+                </div>
+                <div class="tab" data-animal="chicken">
+                    <i class="fas fa-egg"></i>
+                    <span>Chicken</span>
+                </div>
+                <div class="tab" data-animal="sheep">
+                    <i class="fas fa-ram"></i>
+                    <span>Sheep</span>
+                </div>
+            </div>
+
+            <section class="data-section" id="pigs-data">
+                <h2 class="section-title"><i class="fas fa-piggy-bank"></i> Pig Data Management</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                            <h3 class="card-title">Pig Stock</h3>
+                        </div>
+                        <p class="card-description">Manage current pig inventory, track numbers by age, gender, and location.</p>
+                        <button class="card-button" onclick="openForm('pig-stock')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-heart-broken"></i>
+                            </div>
+                            <h3 class="card-title">Mortality</h3>
+                        </div>
+                        <p class="card-description">Record and analyze pig mortality data with reasons and dates.</p>
+                        <button class="card-button" onclick="openForm('mortality')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            <h3 class="card-title">Farrows</h3>
+                        </div>
+                        <p class="card-description">Track breeding records, litter sizes, and piglet health metrics.</p>
+                        <button class="card-button" onclick="openForm('farrows')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <h3 class="card-title">Sold</h3>
+                        </div>
+                        <p class="card-description">Record sales transactions, buyer information, and revenue tracking.</p>
+                        <button class="card-button" onclick="openForm('sold')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-cut"></i>
+                            </div>
+                            <h3 class="card-title">Culled</h3>
+                        </div>
+                        <p class="card-description">Document culled animals with reasons and disposal methods.</p>
+                        <button class="card-button" onclick="openForm('culled')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3 class="card-title">Purchased</h3>
+                        </div>
+                        <p class="card-description">Track new acquisitions, vendor details, and health certifications.</p>
+                        <button class="card-button" onclick="openForm('purchased')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <h3 class="card-title">Drawing</h3>
+                        </div>
+                        <p class="card-description">Manage internal transfers, feed consumption, and resource allocation.</p>
+                        <button class="card-button" onclick="openForm('drawing')">
+                            <i class="fas fa-edit"></i> Update Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Placeholder sections for other animals -->
+            <section class="data-section" id="fish-data" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-fish"></i> Fish Data Management</h2>
+                <p>Fish data management features coming soon. This section will allow you to track fish stock, feeding, growth rates, and harvest data.</p>
+            </section>
+
+            <section class="data-section" id="chicken-data" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-egg"></i> Chicken Data Management</h2>
+                <p>Chicken data management features coming soon. This section will allow you to track poultry stock, egg production, feeding, and health records.</p>
+            </section>
+
+            <section class="data-section" id="sheep-data" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-ram"></i> Sheep Data Management</h2>
+                <p>Sheep data management features coming soon. This section will allow you to track sheep stock, wool production, breeding, and health records.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Cavarino Farm Co Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Google Apps Script URLs (replace with actual URLs)
+        const formUrls = {
+            'pig-stock': 'https://script.google.com/macros/s/.../exec',
+            'mortality': 'https://script.google.com/macros/s/.../exec',
+            'farrows': 'https://script.google.com/macros/s/.../exec',
+            'sold': 'https://script.google.com/macros/s/.../exec',
+            'culled': 'https://script.google.com/macros/s/.../exec',
+            'purchased': 'https://script.google.com/macros/s/.../exec',
+            'drawing': 'https://script.google.com/macros/s/.../exec'
+        };
+
+        // Open form function
+        function openForm(formType) {
+            window.open(formUrls[formType], '_blank');
+        }
+
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const dataSections = document.querySelectorAll('.data-section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all data sections
+                    dataSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show selected data section
+                    const animalType = this.getAttribute('data-animal');
+                    document.getElementById(`${animalType}-data`).style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
