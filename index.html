@@ -160,7 +160,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Header Styles */
+        /* Header Styles - FIXED */
         header {
             background: linear-gradient(135deg, var(--jungle-green) 0%, var(--jungle-green-dark) 100%);
             color: var(--white);
@@ -176,7 +176,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Changed from wrap to nowrap */
             gap: 1rem;
         }
 
@@ -184,7 +184,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            flex: 1;
+            flex: 0 0 auto; /* Changed from flex: 1 to prevent growth/shrink */
         }
 
         .logo i {
@@ -206,7 +206,7 @@
         }
 
         nav {
-            flex: 2;
+            flex: 1; /* Changed from flex: 2 to take remaining space */
             display: flex;
             justify-content: flex-end;
         }
@@ -215,8 +215,9 @@
             display: flex;
             list-style: none;
             gap: 10px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Changed from wrap to nowrap */
             justify-content: flex-end;
+            align-items: center; /* Added for vertical alignment */
         }
 
         nav a {
@@ -230,6 +231,8 @@
             overflow: hidden;
             white-space: nowrap;
             font-size: 0.9rem;
+            display: flex; /* Added for better alignment */
+            align-items: center; /* Added for vertical alignment */
         }
 
         nav a::before {
@@ -658,16 +661,18 @@
             }
         }
 
-        /* Responsive Design */
+        /* Responsive Design - UPDATED */
         @media (max-width: 992px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
+                flex-wrap: wrap; /* Allow wrapping for medium screens */
             }
 
             .logo {
                 justify-content: center;
                 margin-bottom: 1rem;
+                flex: 1; /* Reset for centering */
             }
 
             nav {
@@ -677,6 +682,7 @@
 
             nav ul {
                 justify-content: center;
+                flex-wrap: wrap; /* Allow wrapping in medium screens */
             }
         }
 
