@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cavarino Limited - Record Management</title>
+    <title>Cavarino Limited - Farm Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,11 +12,15 @@
             --jungle-green-dark: #1B5E20;
             --yellow: #FFD600;
             --yellow-light: #FFEB3B;
+            --ocean-blue: #0277BD;
+            --ocean-blue-light: #039BE5;
+            --ocean-blue-dark: #01579B;
             --white: #FFFFFF;
             --light-gray: #F5F5F5;
             --medium-gray: #E0E0E0;
             --dark-gray: #424242;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
             --transition: all 0.3s ease;
         }
 
@@ -28,9 +32,12 @@
         }
 
         body {
-            background-color: var(--light-gray);
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e9 100%);
             color: var(--dark-gray);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -40,9 +47,122 @@
             padding: 0 20px;
         }
 
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-hover);
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header i {
+            font-size: 3rem;
+            color: var(--jungle-green);
+            margin-bottom: 1rem;
+        }
+
+        .login-header h1 {
+            color: var(--jungle-green-dark);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--jungle-green);
+            outline: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--jungle-green) 0%, var(--jungle-green-dark) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .loading-indicator i {
+            color: var(--jungle-green);
+            font-size: 1.5rem;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Header Styles */
         header {
-            background-color: var(--jungle-green);
+            background: linear-gradient(135deg, var(--jungle-green) 0%, var(--jungle-green-dark) 100%);
             color: var(--white);
             padding: 1rem 0;
             box-shadow: var(--shadow);
@@ -56,28 +176,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex: 1;
         }
 
         .logo i {
             font-size: 2rem;
             color: var(--yellow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .logo h1 {
             font-size: 1.5rem;
             font-weight: 700;
+            white-space: nowrap;
+        }
+
+        nav {
+            flex: 2;
+            display: flex;
+            justify-content: flex-end;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         nav a {
@@ -87,83 +226,205 @@
             padding: 0.5rem 1rem;
             border-radius: 4px;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 214, 0, 0.3);
+            transition: left 0.3s ease;
+        }
+
+        nav a:hover::before {
+            left: 0;
         }
 
         nav a:hover, nav a.active {
-            background-color: var(--jungle-green-light);
             color: var(--yellow);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
         }
 
         /* Main Content */
         main {
+            flex: 1;
             padding: 2rem 0;
+            width: 100%;
         }
 
         .welcome-section {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--white) 0%, #f9fbe7 100%);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
             box-shadow: var(--shadow);
             animation: fadeIn 0.8s ease;
+            border-top: 4px solid var(--jungle-green);
+            text-align: center;
         }
 
         .welcome-section h2 {
             color: var(--jungle-green);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
+            font-size: 2rem;
         }
 
         .welcome-section h2 i {
             color: var(--yellow);
+            flex-shrink: 0;
         }
 
-        /* Animal Type Tabs */
-        .animal-tabs {
-            display: flex;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            animation: slideUp 0.7s ease;
-        }
-
-        .tab {
-            padding: 0.8rem 1.5rem;
-            background-color: var(--white);
-            border: 1px solid var(--medium-gray);
-            cursor: pointer;
-            transition: var(--transition);
-            border-radius: 8px 8px 0 0;
-            margin-right: 5px;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab:hover {
-            background-color: var(--jungle-green-light);
-            color: var(--white);
-        }
-
-        .tab.active {
-            background-color: var(--jungle-green);
-            color: var(--white);
-            border-color: var(--jungle-green);
-        }
-
-        .tab i {
+        .welcome-section p {
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
             font-size: 1.2rem;
+            color: var(--dark-gray);
         }
 
-        /* Data Cards Section */
+        /* Animal Type Cards */
+        .animal-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .animal-card {
+            background: linear-gradient(135deg, var(--white) 0%, #fafafa 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+            border-top: 4px solid var(--jungle-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .animal-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--jungle-green);
+        }
+
+        .animal-card h3 {
+            font-size: 1.3rem;
+            color: var(--jungle-green-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .animal-card p {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .animal-card.fish {
+            border-top-color: var(--ocean-blue);
+        }
+
+        .animal-card.fish i {
+            color: var(--ocean-blue);
+        }
+
+        .animal-card.fish h3 {
+            color: var(--ocean-blue-dark);
+        }
+
+        .animal-card.chicken {
+            border-top-color: #f9a825;
+        }
+
+        .animal-card.chicken i {
+            color: #f9a825;
+        }
+
+        .animal-card.chicken h3 {
+            color: #f57f17;
+        }
+
+        .animal-card.sheep {
+            border-top-color: #795548;
+        }
+
+        .animal-card.sheep i {
+            color: #795548;
+        }
+
+        .animal-card.sheep h3 {
+            color: #5d4037;
+        }
+
+        .animal-card.cow {
+            border-top-color: #3e2723;
+        }
+
+        .animal-card.cow i {
+            color: #3e2723;
+        }
+
+        .animal-card.cow h3 {
+            color: #3e2723;
+        }
+
+        /* Data Management Section */
         .data-section {
             background-color: var(--white);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 2rem;
             box-shadow: var(--shadow);
             animation: fadeIn 1s ease;
+            margin-bottom: 2rem;
+            display: none;
         }
 
         .section-title {
@@ -172,22 +433,52 @@
             font-size: 1.8rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--light-gray);
+            flex-wrap: wrap;
         }
 
         .section-title i {
             color: var(--yellow);
+            flex-shrink: 0;
+            font-size: 1.5rem;
+        }
+
+        .section-title span {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .back-btn {
+            background: var(--medium-gray);
+            color: var(--dark-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn:hover {
+            background: var(--dark-gray);
+            color: var(--white);
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
         .card {
-            background-color: var(--white);
-            border-radius: 8px;
+            background: linear-gradient(135deg, var(--white) 0%, #fafafa 100%);
+            border-radius: 12px;
             padding: 1.5rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
@@ -195,11 +486,28 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,214,0,0.1) 0%, transparent 70%);
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover::before {
+            transform: translate(50%, 50%);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-hover);
         }
 
         .card-header {
@@ -207,62 +515,113 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .card-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--jungle-green);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--jungle-green) 0%, var(--jungle-green-dark) 100%);
             color: var(--yellow);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--jungle-green-dark);
+            flex: 1;
+            min-width: 0;
         }
 
         .card-description {
             color: var(--dark-gray);
             margin-bottom: 1.5rem;
             flex-grow: 1;
+            position: relative;
+            z-index: 1;
         }
 
         .card-button {
-            background-color: var(--jungle-green);
+            background: linear-gradient(135deg, var(--jungle-green) 0%, var(--jungle-green-dark) 100%);
             color: var(--white);
             border: none;
-            padding: 0.7rem 1.2rem;
-            border-radius: 4px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin-top: auto;
         }
 
         .card-button:hover {
-            background-color: var(--jungle-green-dark);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .card-button i {
             font-size: 1rem;
         }
 
+        /* Stats Badge */
+        .stats-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--yellow);
+            color: var(--jungle-green-dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
         /* Footer */
         footer {
-            background-color: var(--jungle-green-dark);
+            background: linear-gradient(135deg, var(--jungle-green-dark) 0%, #0d2818 100%);
             color: var(--white);
             text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 2rem;
+            padding: 2rem 0;
+            margin-top: auto;
+            box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+        }
+
+        footer p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: var(--yellow);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Animations */
@@ -280,9 +639,11 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
+                transform: scale(0.95);
             }
             to {
                 opacity: 1;
+                transform: scale(1);
             }
         }
 
@@ -298,19 +659,92 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .header-content {
                 flex-direction: column;
-                gap: 1rem;
+                text-align: center;
             }
 
-            nav ul {
-                flex-wrap: wrap;
+            .logo {
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+
+            nav {
+                width: 100%;
                 justify-content: center;
             }
 
-            .cards-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            nav ul {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, var(--jungle-green) 0%, var(--jungle-green-dark) 100%);
+                border-radius: 0 0 12px 12px;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                z-index: 99;
+            }
+
+            nav.active {
+                max-height: 300px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.8rem 1rem;
+                text-align: center;
+                border-radius: 8px;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .welcome-section p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 1.2rem;
+            }
+
+            .card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .animal-cards {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
 
@@ -322,229 +756,631 @@
             .cards-grid {
                 grid-template-columns: 1fr;
             }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .animal-cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-leaf"></i>
-                    <h1>Cavarino Limited</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active">Dashboard</a></li>
-                        <li><a href="#">Reports</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Help</a></li>
-                    </ul>
-                </nav>
+    <!-- Login Section -->
+    <div id="loginSection" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-leaf"></i>
+                <h1>Cavarino Limited</h1>
+                <p>Farm Management System</p>
             </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <div id="errorMessage" class="error-message">
+                    Invalid username or password. Please try again.
+                </div>
+                <div id="loadingIndicator" class="loading-indicator">
+                    <i class="fas fa-spinner"></i> Verifying credentials...
+                </div>
+            </form>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <div class="container">
-            <section class="welcome-section">
-                <h2><i class="fas fa-chart-line"></i> Farm Record Management System</h2>
-                <p>Welcome to Cavarino Farm's comprehensive record management system. Track and manage all your livestock data efficiently. Select an animal type below to view and update records.</p>
-            </section>
-
-            <div class="animal-tabs">
-                <div class="tab active" data-animal="pigs">
-                    <i class="fas fa-piggy-bank"></i>
-                    <span>Pigs</span>
-                </div>
-                <div class="tab" data-animal="fish">
-                    <i class="fas fa-fish"></i>
-                    <span>Fish</span>
-                </div>
-                <div class="tab" data-animal="chicken">
-                    <i class="fas fa-egg"></i>
-                    <span>Chicken</span>
-                </div>
-                <div class="tab" data-animal="sheep">
-                    <i class="fas fa-ram"></i>
-                    <span>Sheep</span>
+    <!-- Main Application (Hidden Initially) -->
+    <div id="mainApp" style="display: none;">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-leaf"></i>
+                        <h1>Cavarino Limited</h1>
+                    </div>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <nav id="mainNav">
+                        <ul>
+                            <li><a href="#" class="active">Dashboard</a></li>
+                            <li><a href="#">Reports</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
+        </header>
 
-            <section class="data-section" id="pigs-data">
-                <h2 class="section-title"><i class="fas fa-piggy-bank"></i> Pig Data Management</h2>
-                <div class="cards-grid">
-                  <!--  <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-warehouse"></i>
-                            </div>
-                            <h3 class="card-title">Pig Stock</h3>
+        <main>
+            <div class="container">
+                <!-- Dashboard Section -->
+                <section id="dashboardSection" class="welcome-section">
+                    <h2><i class="fas fa-chart-line"></i> <span>Farm Record Management System</span></h2>
+                    <p>Welcome to Cavarino Farm's comprehensive record management system. Track and manage all your livestock data efficiently. Select an animal type below to view and update records.</p>
+                    
+                    <div class="animal-cards">
+                        <div class="animal-card" data-animal="pigs">
+                            <i class="fas fa-piggy-bank"></i>
+                            <h3>Pigs</h3>
+                            <p>Manage pig records including mortality, farrowing, sales, and more</p>
                         </div>
-                        <p class="card-description">Manage current pig inventory, track numbers by age, gender, and location.</p>
-                        <button class="card-button" onclick="openForm('pig-stock')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
-                    </div> -->
-
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-heart-broken"></i>
-                            </div>
-                            <h3 class="card-title">Mortality</h3>
+                        <div class="animal-card fish" data-animal="fish">
+                            <i class="fas fa-fish"></i>
+                            <h3>Fish</h3>
+                            <p>Track fish propagation, stocking, mortality, and harvesting data</p>
                         </div>
-                        <p class="card-description">Record and analyze pig mortality data with reasons and dates.</p>
-                        <button class="card-button" onclick="openForm('mortality')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
+                        <div class="animal-card chicken" data-animal="chicken">
+                            <i class="fas fa-egg"></i>
+                            <h3>Chicken</h3>
+                            <p>Monitor poultry health, egg production, and feeding schedules</p>
+                        </div>
+                        <div class="animal-card sheep" data-animal="sheep">
+                            <i class="fas fa-ram"></i>
+                            <h3>Sheep</h3>
+                            <p>Record wool production, breeding, and health information</p>
+                        </div>
+                        <div class="animal-card cow" data-animal="cows">
+                            <i class="fas fa-cow"></i>
+                            <h3>Cows</h3>
+                            <p>Manage dairy production, breeding, and health records</p>
+                        </div>
                     </div>
+                </section>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-baby"></i>
+                <!-- Pig Data Section -->
+                <section class="data-section" id="pigs-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title"><i class="fas fa-piggy-bank"></i> <span>Pig Data Management</span></h2>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-heart-broken"></i>
+                                </div>
+                                <h3 class="card-title">Mortality</h3>
                             </div>
-                            <h3 class="card-title">Farrows</h3>
+                            <p class="card-description">Record and analyze pig mortality data with reasons and dates.</p>
+                            <button class="card-button" onclick="openForm('mortality')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
                         </div>
-                        <p class="card-description">Track breeding records, litter sizes, and piglet health metrics.</p>
-                        <button class="card-button" onclick="openForm('farrows')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
-                    </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-hand-holding-usd"></i>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-baby"></i>
+                                </div>
+                                <h3 class="card-title">Farrows</h3>
                             </div>
-                            <h3 class="card-title">Sold</h3>
+                            <p class="card-description">Track breeding records, litter sizes, and piglet health metrics.</p>
+                            <button class="card-button" onclick="openForm('farrows')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
                         </div>
-                        <p class="card-description">Record sales transactions, buyer information, and revenue tracking.</p>
-                        <button class="card-button" onclick="openForm('sold')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
-                    </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-cut"></i>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <h3 class="card-title">Sold</h3>
                             </div>
-                            <h3 class="card-title">Culled</h3>
+                            <p class="card-description">Record sales transactions, buyer information, and revenue tracking.</p>
+                            <button class="card-button" onclick="openForm('sold')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
                         </div>
-                        <p class="card-description">Document culled animals with reasons and disposal methods.</p>
-                        <button class="card-button" onclick="openForm('culled')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
-                    </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-shopping-cart"></i>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-cut"></i>
+                                </div>
+                                <h3 class="card-title">Culled</h3>
                             </div>
-                            <h3 class="card-title">Purchased</h3>
+                            <p class="card-description">Document culled animals with reasons and disposal methods.</p>
+                            <button class="card-button" onclick="openForm('culled')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
                         </div>
-                        <p class="card-description">Track new acquisitions, vendor details, and health certifications.</p>
-                        <button class="card-button" onclick="openForm('purchased')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
-                    </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-icon">
-                                <i class="fas fa-file-invoice"></i>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h3 class="card-title">Purchased</h3>
                             </div>
-                            <h3 class="card-title">Drawing</h3>
+                            <p class="card-description">Track new acquisitions, vendor details, and health certifications.</p>
+                            <button class="card-button" onclick="openForm('purchased')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
                         </div>
-                        <p class="card-description">Manage internal transfers, feed consumption, and resource allocation.</p>
-                        <button class="card-button" onclick="openForm('drawing')">
-                            <i class="fas fa-edit"></i> Update Data
-                        </button>
+
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <h3 class="card-title">Drawing</h3>
+                            </div>
+                            <p class="card-description">Manage internal transfers, feed consumption, and resource allocation.</p>
+                            <button class="card-button" onclick="openForm('drawing')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Placeholder sections for other animals -->
-            <section class="data-section" id="fish-data" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-fish"></i> Fish Data Management</h2>
-                <p>Fish data management features coming soon. This section will allow you to track fish stock, feeding, growth rates, and harvest data.</p>
-            </section>
+                <!-- Fish Data Section -->
+                <section class="data-section" id="fish-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title"><i class="fas fa-fish"></i> <span>Fish Data Management</span></h2>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Ready to use">New</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-skull-crossbones"></i>
+                                </div>
+                                <h3 class="card-title">Mortality</h3>
+                            </div>
+                            <p class="card-description">Track fish mortality rates, causes, and water quality parameters at time of death.</p>
+                            <button class="card-button" onclick="openForm('fish-mortality')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-            <section class="data-section" id="chicken-data" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-egg"></i> Chicken Data Management</h2>
-                <p>Chicken data management features coming soon. This section will allow you to track poultry stock, egg production, feeding, and health records.</p>
-            </section>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Ready to use">New</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-fish"></i>
+                                </div>
+                                <h3 class="card-title">Drawing</h3>
+                            </div>
+                            <p class="card-description">Record fish harvesting, sampling, and transfers between ponds or tanks.</p>
+                            <button class="card-button" onclick="openForm('fish-drawing')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-            <section class="data-section" id="sheep-data" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-ram"></i> Sheep Data Management</h2>
-                <p>Sheep data management features coming soon. This section will allow you to track sheep stock, wool production, breeding, and health records.</p>
-            </section>
-        </div>
-    </main>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Ready to use">New</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <h3 class="card-title">Propagation</h3>
+                            </div>
+                            <p class="card-description">Monitor breeding activities, spawning records, and fry production rates.</p>
+                            <button class="card-button" onclick="openForm('fish-propagation')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Cavarino Limited. All rights reserved.</p>
-        </div>
-    </footer>
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Ready to use">New</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-water"></i>
+                                </div>
+                                <h3 class="card-title">Stocking</h3>
+                            </div>
+                            <p class="card-description">Manage pond stocking densities, fingerling counts, and growth projections.</p>
+                            <button class="card-button" onclick="openForm('fish-stocking')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Ready to use">New</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <h3 class="card-title">Purchases</h3>
+                            </div>
+                            <p class="card-description">Track fingerling purchases, feed acquisitions, and supplier information.</p>
+                            <button class="card-button" onclick="openForm('fish-purchases')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chicken Data Section -->
+                <section class="data-section" id="chicken-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title"><i class="fas fa-egg"></i> <span>Chicken Data Management</span></h2>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Coming soon">Beta</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h3 class="card-title">Coming Soon</h3>
+                            </div>
+                            <p class="card-description">Chicken data management features are currently under development. This section will allow you to track poultry stock, egg production, feeding, and health records.</p>
+                            <button class="card-button" disabled style="opacity: 0.6; cursor: not-allowed;">
+                                <i class="fas fa-clock"></i> In Development
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sheep Data Section -->
+                <section class="data-section" id="sheep-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title"><i class="fas fa-ram"></i> <span>Sheep Data Management</span></h2>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Coming soon">Beta</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h3 class="card-title">Coming Soon</h3>
+                            </div>
+                            <p class="card-description">Sheep data management features are currently under development. This section will allow you to track sheep stock, wool production, breeding, and health records.</p>
+                            <button class="card-button" disabled style="opacity: 0.6; cursor: not-allowed;">
+                                <i class="fas fa-clock"></i> In Development
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cows Data Section -->
+                <section class="data-section" id="cows-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title"><i class="fas fa-cow"></i> <span>Cow Data Management</span></h2>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <span class="stats-badge tooltip" data-tooltip="Coming soon">Beta</span>
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h3 class="card-title">Coming Soon</h3>
+                            </div>
+                            <p class="card-description">Cow data management features are currently under development. This section will allow you to track dairy production, breeding, and health records.</p>
+                            <button class="card-button" disabled style="opacity: 0.6; cursor: not-allowed;">
+                                <i class="fas fa-clock"></i> In Development
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p><i class="fas fa-copyright"></i> 2025 Cavarino Limited. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
 
     <script>
         // Google Apps Script URLs (replace with actual URLs)
         const formUrls = {
-            'pig-stock': 'https://script.google.com/macros/s/.../exec',
+            // Pig forms
             'mortality': 'https://script.google.com/macros/s/AKfycby1CHWMjL_P_cupFfmN0877096NlKNzIcDwWDvMe-3MtFZb2SG_1ZZMcOHk4iwZ0qj6Kg/exec',
             'farrows': 'https://script.google.com/macros/s/AKfycby5nHup87pWbP6soDcxS5CwO766ojO2-ocI7ZgKG3aEac0Q2KUmvtvUxOXj1UYN5BcNAw/exec',
             'sold': 'https://script.google.com/macros/s/AKfycbzP4ls7WRiipsE0PvV2Xn9yK5V_EPXVQ5ffUVPZnmYTBFKdCjVY_Gbe3-nLHx--VuNj/exec',
             'culled': 'https://script.google.com/macros/s/AKfycbzIZF3xgqitTi-M35aG7_p0BTqcHaapBL-nhEvAxxMiuiR9oozj8qLeGwKiCqNgn5-I/exec',
             'purchased': 'https://script.google.com/macros/s/AKfycbyZJTWn72gAOxtJntywfLTT9rb2PhYVYVJRYW_M7ZGFgBDetkyy02c3ppecFfpUlUYJAg/exec',
-            'drawing': 'https://script.google.com/macros/s/AKfycbw0SQkyn92fUsFSG_KWoJeh7_O1LoQjN5TL4AqRFL51SJp8ghmWq7J35jPi7hUyY9t8/exec'
+            'drawing': 'https://script.google.com/macros/s/AKfycbw0SQkyn92fUsFSG_KWoJeh7_O1LoQjN5TL4AqRFL51SJp8ghmWq7J35jPi7hUyY9t8/exec',
+            
+            // Fish forms - replace with actual URLs when created
+            'fish-mortality': '#',
+            'fish-drawing': '#',
+            'fish-propagation': '#',
+            'fish-stocking': '#',
+            'fish-purchases': '#'
         };
 
-        // Open form function
-        function openForm(formType) {
-            window.open(formUrls[formType], '_blank');
-        }
+        // Google Apps Script URL for authentication
+        const authUrl = 'https://script.google.com/macros/s/AKfycbxY5rtt_ZOWt53W0_evikP03r7g0FuoIqBKUMrG4MFh6lFUe_QHKUyKcmdI4CC6sSzV/exec'; // Replace with your actual URL
 
-        // Tab switching functionality
+        // Login functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('.tab');
-            const dataSections = document.querySelectorAll('.data-section');
+            const loginForm = document.getElementById('loginForm');
+            const errorMessage = document.getElementById('errorMessage');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const loginSection = document.getElementById('loginSection');
+            const mainApp = document.getElementById('mainApp');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mainNav = document.getElementById('mainNav');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+                
+                // Change icon
+                const icon = this.querySelector('i');
+                if (mainNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
+            // Close mobile menu when clicking on a link
+            const navLinks = mainNav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mainNav.classList.remove('active');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // Login form submission
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                try {
+                    // Call Google Apps Script to check credentials
+                    const response = await fetch(`${authUrl}?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+                    const data = await response.json();
                     
-                    // Add active class to clicked tab
-                    this.classList.add('active');
+                    if (data.success) {
+                        // Hide login section and show main app
+                        loginSection.style.display = 'none';
+                        mainApp.style.display = 'block';
+                        
+                        // Reset form
+                        loginForm.reset();
+                    } else {
+                        // Show error message
+                        errorMessage.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Authentication error:', error);
+                    errorMessage.textContent = 'An error occurred. Please try again.';
+                    errorMessage.style.display = 'block';
+                } finally {
+                    // Hide loading indicator
+                    loadingIndicator.style.display = 'none';
+                }
+            });
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', function() {
+                // Show login section and hide main app
+                loginSection.style.display = 'flex';
+                mainApp.style.display = 'none';
+            });
+
+            // Animal card selection
+            const animalCards = document.querySelectorAll('.animal-card');
+            const dataSections = document.querySelectorAll('.data-section');
+            const dashboardSection = document.getElementById('dashboardSection');
+            
+            animalCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const animalType = this.getAttribute('data-animal');
+                    const targetSection = document.getElementById(`${animalType}-data`);
                     
-                    // Hide all data sections
+                    // Hide dashboard and show selected animal section
+                    dashboardSection.style.display = 'none';
+                    
                     dataSections.forEach(section => {
                         section.style.display = 'none';
                     });
                     
-                    // Show selected data section
-                    const animalType = this.getAttribute('data-animal');
-                    document.getElementById(`${animalType}-data`).style.display = 'block';
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                    }
+                });
+            });
+
+            // Back button functionality
+            const backButtons = document.querySelectorAll('.back-btn');
+            backButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Hide all data sections and show dashboard
+                    dataSections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    if (targetSection === 'dashboardSection') {
+                        dashboardSection.style.display = 'block';
+                    }
+                });
+            });
+
+            // Add hover effect to cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('.card-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
                 });
             });
         });
+
+        // Open form function with loading animation
+        function openForm(formType) {
+            const url = formUrls[formType];
+            if (url === '#') {
+                alert('This form is being set up. Please check back soon!');
+                return;
+            }
+            
+            // Add loading animation to button
+            const button = event.target.closest('.card-button');
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<span class="loading"></span> Opening...';
+            button.disabled = true;
+            
+            // Open form in new tab
+            window.open(url, '_blank');
+            
+            // Reset button after delay
+            setTimeout(() => {
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            }, 1000);
+        }
     </script>
+
+    <style>
+        /* Additional styles for ripple effect */
+        .card-button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Accessibility improvements */
+        .card-button:focus,
+        .animal-card:focus,
+        nav a:focus {
+            outline: 3px solid var(--yellow);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .card {
+                border: 2px solid var(--dark-gray);
+            }
+            
+            .card-button {
+                border: 2px solid var(--white);
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
