@@ -105,6 +105,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .form-group label {
@@ -114,18 +115,52 @@
             font-weight: 500;
         }
 
+        .input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-with-icon i.left-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--jungle-green);
+            z-index: 2;
+        }
+
         .form-group input {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.8rem 0.8rem 0.8rem 45px;
             border: 2px solid var(--medium-gray);
             border-radius: 8px;
             font-size: 1rem;
             transition: var(--transition);
+            background-color: var(--white);
         }
 
         .form-group input:focus {
             border-color: var(--jungle-green);
             outline: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--jungle-green);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+            background: transparent;
+            border: none;
+            padding: 5px;
+        }
+
+        .password-toggle:hover {
+            color: var(--jungle-green-dark);
         }
 
         .login-btn {
@@ -847,11 +882,20 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user left-icon"></i>
+                        <input type="text" id="username" name="username" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock left-icon"></i>
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="login-btn">
                     <i class="fas fa-sign-in-alt"></i> Login
@@ -937,7 +981,7 @@
                     <button class="back-btn" data-section="dashboardSection">
                         <i class="fas fa-arrow-left"></i> Back to Dashboard
                     </button>
-                    <h2 class="section-title"><i class="fas fa-piggy-bank"></i> <span>Pig Data Management</span></h2>
+                    <h2 class="section-title" style="color: var(--pig-pink); border-bottom-color: var(--pig-pink-light);"><i class="fas fa-piggy-bank" style="color: var(--pig-pink-light);"></i> <span>Pig Data Management</span></h2>
                     <div class="cards-grid">
                         <div class="card" style="border-left-color: var(--pig-pink);">
                             <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
@@ -1283,6 +1327,20 @@
             const loginSection = document.getElementById('loginSection');
             const mainApp = document.getElementById('mainApp');
             const logoutBtn = document.getElementById('logoutBtn');
+            const passwordToggle = document.getElementById('passwordToggle');
+            const passwordInput = document.getElementById('password');
+            
+            // Password visibility toggle
+            passwordToggle.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent form submission
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle the eye icon
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
             
             // Mobile menu toggle
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
