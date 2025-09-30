@@ -1182,17 +1182,108 @@
                     </button>
                     <h2 class="section-title" style="color: var(--chicken-orange); border-bottom-color: var(--chicken-orange-light);"><i class="fas fa-egg" style="color: var(--chicken-orange-light);"></i> <span>Chicken Data Management</span></h2>
                     <div class="cards-grid">
+                        <!-- Chicken Mortality Card -->
                         <div class="card" style="border-left-color: var(--chicken-orange);">
-                            <span class="stats-badge tooltip" data-tooltip="Coming soon">Beta</span>
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
                             <div class="card-header">
                                 <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
-                                    <i class="fas fa-info-circle"></i>
+                                    <i class="fas fa-heart-broken"></i>
                                 </div>
-                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Coming Soon</h3>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Mortality</h3>
                             </div>
-                            <p class="card-description">Chicken data management features are currently under development. This section will allow you to track poultry stock, egg production, feeding, and health records.</p>
-                            <button class="card-button" disabled style="opacity: 0.6; cursor: not-allowed;">
-                                <i class="fas fa-clock"></i> In Development
+                            <p class="card-description">Record and analyze chicken mortality data with reasons and dates.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('chicken-mortality')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <!-- Chicken Purchases Card -->
+                        <div class="card" style="border-left-color: var(--chicken-orange);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Purchases</h3>
+                            </div>
+                            <p class="card-description">Track new chicken acquisitions, vendor details, and health certifications.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('chicken-purchases')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <!-- Chicken Sales Card -->
+                        <div class="card" style="border-left-color: var(--chicken-orange);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Sales</h3>
+                            </div>
+                            <p class="card-description">Record chicken sales transactions, buyer information, and revenue tracking.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('chicken-sales')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <!-- Chicken Drawings Card -->
+                        <div class="card" style="border-left-color: var(--chicken-orange);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Drawings</h3>
+                            </div>
+                            <p class="card-description">Manage internal chicken transfers and resource allocation.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('chicken-drawings')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <!-- Egg Collection Card -->
+                        <div class="card" style="border-left-color: var(--chicken-orange);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
+                                    <i class="fas fa-basket-shopping"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Egg Collection</h3>
+                            </div>
+                            <p class="card-description">Track daily egg collection by block, including trays, pieces, and quality.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('egg-collection')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <!-- Egg Sales Card -->
+                        <div class="card" style="border-left-color: var(--chicken-orange);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
+                                    <i class="fas fa-cash-register"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Egg Sales</h3>
+                            </div>
+                            <p class="card-description">Record egg sales transactions by type (Normal/Broken) with tray quantities.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('egg-sales')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+
+                        <!-- Egg Drawings Card -->
+                        <div class="card" style="border-left-color: var(--chicken-orange);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);">
+                                    <i class="fas fa-hand-holding-heart"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--chicken-orange-dark);">Egg Drawings</h3>
+                            </div>
+                            <p class="card-description">Record egg removals by type (Normal/Broken/Damaged) with tray quantities.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--chicken-orange) 0%, var(--chicken-orange-dark) 100%);" onclick="openForm('egg-drawings')">
+                                <i class="fas fa-edit"></i> Update Data
                             </button>
                         </div>
                     </div>
@@ -1302,6 +1393,14 @@
             'drawing': 'https://script.google.com/macros/s/AKfycbw0SQkyn92fUsFSG_KWoJeh7_O1LoQjN5TL4AqRFL51SJp8ghmWq7J35jPi7hUyY9t8/exec',
             'progression': 'https://script.google.com/macros/s/AKfycbwUel17cFFYKi01-TPxY8i1FZAN5EaqJ7E7uUyudaS-ch1394UcvRWPfGmWM5hz_DZYWw/exec',
 
+            // Chicken forms
+            'chicken-mortality': 'https://script.google.com/macros/s/AKfycbyxUcT2HopP_FcgbJXllA5avOV5d03jDL9Od18XuVjTXgcCIuasUU_BIzOpNr-ftewb/exec',
+            'chicken-purchases': 'https://script.google.com/macros/s/AKfycbxEpiSeZUhR3lmpOhcDvjv1JQIlH9amjKzdb758wygIHrIzaXFGxU1RFzY7LZ16lyRf/exec',
+            'chicken-sales': 'https://script.google.com/macros/s/AKfycbxnunIANQfHWCjyzuuBa2vUt2D6igxoU4LCIl9hNFLmxmdYdb5jtb08pemnkU5VGM_g_Q/exec',
+            'chicken-drawings': 'https://script.google.com/macros/s/AKfycbycnFcIcdOhozgSmtNmIQROhBRj3RANNmnk-Qivt3rOm_phKk4fiUm-EiFbtN2fw9Sf/exec',
+            'egg-collection': 'https://script.google.com/macros/s/AKfycbxmO_mpwHbEVPKYInQoxKwDPvrjkMyCLhXHcNJgGVC-_y_9YNeUl6DJoPFENNPSp5JzCw/exec',
+            'egg-sales': 'https://script.google.com/macros/s/AKfycbyQaHnMZKIsGE4mWp6RYr5HMunViaPEE4-XaiyxykLR0hXLI4HeYLCor27WSxBcLBqr/exec',
+            'egg-drawings': 'https://script.google.com/macros/s/AKfycbz-VC9Tmszy_38KwnTK1QNNHWm36CW9pc2yhTzc2BVdLGxapTKEbgKlaTgz1dr1ojNo/exec',
             
             // Fish forms - replace with actual URLs when created
             'fish-mortality': 'https://script.google.com/macros/s/AKfycbz31__PV2TEuv8Rp0AiQ3-2HCMU5S-BKG-iIjmAv00S3sOsBKcIW8UGlxa9OF6NJPA/exec',
@@ -1578,5 +1677,3 @@
     </style>
 </body>
 </html>
-
-
