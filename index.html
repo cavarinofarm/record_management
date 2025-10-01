@@ -226,7 +226,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: nowrap; /* Changed from wrap to nowrap */
+            flex-wrap: nowrap;
             gap: 1rem;
         }
 
@@ -234,7 +234,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            flex: 0 0 auto; /* Changed from flex: 1 to prevent growth/shrink */
+            flex: 0 0 auto;
         }
 
         .logo i {
@@ -256,7 +256,7 @@
         }
 
         nav {
-            flex: 1; /* Changed from flex: 2 to take remaining space */
+            flex: 1;
             display: flex;
             justify-content: flex-end;
         }
@@ -265,9 +265,9 @@
             display: flex;
             list-style: none;
             gap: 10px;
-            flex-wrap: nowrap; /* Changed from wrap to nowrap */
+            flex-wrap: nowrap;
             justify-content: flex-end;
-            align-items: center; /* Added for vertical alignment */
+            align-items: center;
         }
 
         nav a {
@@ -281,8 +281,8 @@
             overflow: hidden;
             white-space: nowrap;
             font-size: 0.9rem;
-            display: flex; /* Added for better alignment */
-            align-items: center; /* Added for vertical alignment */
+            display: flex;
+            align-items: center;
         }
 
         nav a::before {
@@ -643,6 +643,7 @@
             z-index: 1;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             margin-top: auto;
+            overflow: hidden;
         }
 
         .card-button:hover {
@@ -697,10 +698,6 @@
             animation: spin 1s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         /* Animations */
         @keyframes slideDown {
             from {
@@ -735,7 +732,24 @@
             }
         }
 
-        /* Responsive Design - UPDATED */
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 992px) {
             .animal-cards {
                 grid-template-columns: repeat(2, 1fr);
@@ -744,13 +758,13 @@
             .header-content {
                 flex-direction: column;
                 text-align: center;
-                flex-wrap: wrap; /* Allow wrapping for medium screens */
+                flex-wrap: wrap;
             }
 
             .logo {
                 justify-content: center;
                 margin-bottom: 1rem;
-                flex: 1; /* Reset for centering */
+                flex: 1;
             }
 
             nav {
@@ -760,7 +774,7 @@
 
             nav ul {
                 justify-content: center;
-                flex-wrap: wrap; /* Allow wrapping in medium screens */
+                flex-wrap: wrap;
             }
         }
 
@@ -866,6 +880,34 @@
             .card-button {
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        .card-button:focus,
+        .animal-card:focus,
+        nav a:focus {
+            outline: 3px solid var(--yellow);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .card {
+                border: 2px solid var(--dark-gray);
+            }
+            
+            .card-button {
+                border: 2px solid var(--white);
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -1290,217 +1332,217 @@
                 </section>
 
                 <!-- Sheep Data Section -->
-<section class="data-section" id="sheep-data">
-    <button class="back-btn" data-section="dashboardSection">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
-    </button>
-    <h2 class="section-title" style="color: var(--sheep-blue); border-bottom-color: var(--sheep-blue-light);"><i class="fas fa-horse" style="color: var(--sheep-blue-light);"></i> <span>Sheep Data Management</span></h2>
-    <div class="cards-grid">
-        <!-- Lambing Card -->
-        <div class="card" style="border-left-color: var(--sheep-blue);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
-                    <i class="fas fa-baby"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Lambing</h3>
-            </div>
-            <p class="card-description">Track lambing records, birth dates, lamb counts, and mother sheep identification.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-lambing')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                <section class="data-section" id="sheep-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title" style="color: var(--sheep-blue); border-bottom-color: var(--sheep-blue-light);"><i class="fas fa-horse" style="color: var(--sheep-blue-light);"></i> <span>Sheep Data Management</span></h2>
+                    <div class="cards-grid">
+                        <!-- Lambing Card -->
+                        <div class="card" style="border-left-color: var(--sheep-blue);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
+                                    <i class="fas fa-baby"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Lambing</h3>
+                            </div>
+                            <p class="card-description">Track lambing records, birth dates, lamb counts, and mother sheep identification.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-lambing')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Mortality Card -->
-        <div class="card" style="border-left-color: var(--sheep-blue);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
-                    <i class="fas fa-heart-broken"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Mortality</h3>
-            </div>
-            <p class="card-description">Record sheep mortality data including causes, dates, and affected age groups.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-mortality')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Mortality Card -->
+                        <div class="card" style="border-left-color: var(--sheep-blue);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
+                                    <i class="fas fa-heart-broken"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Mortality</h3>
+                            </div>
+                            <p class="card-description">Record sheep mortality data including causes, dates, and affected age groups.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-mortality')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Purchases Card -->
-        <div class="card" style="border-left-color: var(--sheep-blue);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Purchases</h3>
-            </div>
-            <p class="card-description">Track new sheep acquisitions, vendor details, breeds, and health certifications.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-purchases')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Purchases Card -->
+                        <div class="card" style="border-left-color: var(--sheep-blue);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Purchases</h3>
+                            </div>
+                            <p class="card-description">Track new sheep acquisitions, vendor details, breeds, and health certifications.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-purchases')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Sales Card -->
-        <div class="card" style="border-left-color: var(--sheep-blue);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
-                    <i class="fas fa-hand-holding-usd"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Sales</h3>
-            </div>
-            <p class="card-description">Record sheep sales transactions, buyer information, weights, and pricing.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-sales')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Sales Card -->
+                        <div class="card" style="border-left-color: var(--sheep-blue);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Sales</h3>
+                            </div>
+                            <p class="card-description">Record sheep sales transactions, buyer information, weights, and pricing.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-sales')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Drawings Card -->
-        <div class="card" style="border-left-color: var(--sheep-blue);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Drawings</h3>
-            </div>
-            <p class="card-description">Manage internal sheep transfers, personal use, and resource allocation.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-drawings')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
-    </div>
-</section>
+                        <!-- Drawings Card -->
+                        <div class="card" style="border-left-color: var(--sheep-blue);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--sheep-blue-dark);">Drawings</h3>
+                            </div>
+                            <p class="card-description">Manage internal sheep transfers, personal use, and resource allocation.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--sheep-blue) 0%, var(--sheep-blue-dark) 100%);" onclick="openForm('sheep-drawings')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Cows Data Section -->
-<section class="data-section" id="cows-data">
-    <button class="back-btn" data-section="dashboardSection">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
-    </button>
-    <h2 class="section-title" style="color: var(--cow-brown); border-bottom-color: var(--cow-brown-light);"><i class="fas fa-cow" style="color: var(--cow-brown-light);"></i> <span>Cow Data Management</span></h2>
-    <div class="cards-grid">
-        <!-- Calving Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-baby-carriage"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Calving</h3>
-            </div>
-            <p class="card-description">Track calving records, birth dates, calf health, and mother cow details.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-calving')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                <section class="data-section" id="cows-data">
+                    <button class="back-btn" data-section="dashboardSection">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <h2 class="section-title" style="color: var(--cow-brown); border-bottom-color: var(--cow-brown-light);"><i class="fas fa-cow" style="color: var(--cow-brown-light);"></i> <span>Cow Data Management</span></h2>
+                    <div class="cards-grid">
+                        <!-- Calving Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-baby-carriage"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Calving</h3>
+                            </div>
+                            <p class="card-description">Track calving records, birth dates, calf health, and mother cow details.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-calving')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Mortality Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-heart-broken"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Mortality</h3>
-            </div>
-            <p class="card-description">Record cow mortality data including causes, dates, and affected age groups.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-mortality')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Mortality Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-heart-broken"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Mortality</h3>
+                            </div>
+                            <p class="card-description">Record cow mortality data including causes, dates, and affected age groups.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-mortality')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Cow Sales Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-hand-holding-usd"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Cow Sales</h3>
-            </div>
-            <p class="card-description">Track cattle sales, buyer information, weights, and revenue records.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-sales')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Cow Sales Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Cow Sales</h3>
+                            </div>
+                            <p class="card-description">Track cattle sales, buyer information, weights, and revenue records.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-sales')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Cow Purchases Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Cow Purchases</h3>
-            </div>
-            <p class="card-description">Record new cattle acquisitions, vendor details, breeds, and health certificates.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-purchases')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Cow Purchases Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Cow Purchases</h3>
+                            </div>
+                            <p class="card-description">Record new cattle acquisitions, vendor details, breeds, and health certificates.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-purchases')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Cow Drawings Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Cow Drawings</h3>
-            </div>
-            <p class="card-description">Manage internal cattle transfers, personal use, and resource allocation.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-drawings')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Cow Drawings Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Cow Drawings</h3>
+                            </div>
+                            <p class="card-description">Manage internal cattle transfers, personal use, and resource allocation.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('cow-drawings')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Milk Production Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-glass-whiskey"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Milk Production</h3>
-            </div>
-            <p class="card-description">Track daily milk production volumes, quality metrics, and individual cow yields.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('milk-production')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Milk Production Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-glass-whiskey"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Milk Production</h3>
+                            </div>
+                            <p class="card-description">Track daily milk production volumes, quality metrics, and individual cow yields.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('milk-production')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Milk Sales Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-cash-register"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Milk Sales</h3>
-            </div>
-            <p class="card-description">Record milk sales transactions, prices, volumes, and customer information.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('milk-sales')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
+                        <!-- Milk Sales Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-cash-register"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Milk Sales</h3>
+                            </div>
+                            <p class="card-description">Record milk sales transactions, prices, volumes, and customer information.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('milk-sales')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
 
-        <!-- Milk Drawings Card -->
-        <div class="card" style="border-left-color: var(--cow-brown);">
-            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
-            <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
-                    <i class="fas fa-hand-holding"></i>
-                </div>
-                <h3 class="card-title" style="color: var(--cow-brown-dark);">Milk Drawings</h3>
-            </div>
-            <p class="card-description">Track milk used internally, personal consumption, and calf feeding records.</p>
-            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('milk-drawings')">
-                <i class="fas fa-edit"></i> Update Data
-            </button>
-        </div>
-    </div>
-</section>
+                        <!-- Milk Drawings Card -->
+                        <div class="card" style="border-left-color: var(--cow-brown);">
+                            <span class="stats-badge tooltip" data-tooltip="Last updated today">Active</span>
+                            <div class="card-header">
+                                <div class="card-icon" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);">
+                                    <i class="fas fa-hand-holding"></i>
+                                </div>
+                                <h3 class="card-title" style="color: var(--cow-brown-dark);">Milk Drawings</h3>
+                            </div>
+                            <p class="card-description">Track milk used internally, personal consumption, and calf feeding records.</p>
+                            <button class="card-button" style="background: linear-gradient(135deg, var(--cow-brown) 0%, var(--cow-brown-dark) 100%);" onclick="openForm('milk-drawings')">
+                                <i class="fas fa-edit"></i> Update Data
+                            </button>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Garden Data Section -->
                 <section class="data-section" id="garden-data">
@@ -1549,7 +1591,7 @@
     </div>
 
     <script>
-        // Google Apps Script URLs (replace with actual URLs)
+        // Google Apps Script URLs
         const formUrls = {
             // Pig forms
             'mortality': 'https://script.google.com/macros/s/AKfycby1CHWMjL_P_cupFfmN0877096NlKNzIcDwWDvMe-3MtFZb2SG_1ZZMcOHk4iwZ0qj6Kg/exec',
@@ -1569,7 +1611,7 @@
             'egg-sales': 'https://script.google.com/macros/s/AKfycbxtmKHTVC9tE4yia_7hWy91SvV-v7GF1o-cd3axgloIJdhpAKG_dM6JXfQH4SEdoWC6/exec',
             'egg-drawings': 'https://script.google.com/macros/s/AKfycbzOZUhcKpNjSKZIPzL4pm1VTIh-K5Gp9XbD9cPMnEEAtIxAs3J1TLnEpRTH9oBb1hRL/exec',
             
-            // Fish forms - replace with actual URLs when created
+            // Fish forms
             'fish-mortality': 'https://script.google.com/macros/s/AKfycbz31__PV2TEuv8Rp0AiQ3-2HCMU5S-BKG-iIjmAv00S3sOsBKcIW8UGlxa9OF6NJPA/exec',
             'fish-sales': 'https://script.google.com/macros/s/AKfycbzQjWl-SmR_LvFhc59PdOsHbIA8Ei4t_m5Wz2x14xGwMtRpPUzJIYcfHXXZMlNgVvyn/exec',
             'fish-drawing': 'https://script.google.com/macros/s/AKfycbwuauCP1PCJcFd6vF1pMjmehqOjSnQo0d1h1poz7Tea3HbYraMvdXNisnzWDE5hGeQvMg/exec',
@@ -1577,17 +1619,13 @@
             'fish-stocking': 'https://script.google.com/macros/s/AKfycbwWz2nLQzp7lTlpJ8GiFjv2u2vIQ09SO1GoLZoKe4afOVNmkw_DPKLvomBcib3GzXRr/exec',
             'fish-purchases': 'https://script.google.com/macros/s/AKfycbxhFPYeh--7LiDs94xHxTbQ8TBHOO9L6AbS1U-1YeiK60Pyg3aEaUBhNt2JK0znR94QVA/exec',
             
-            // Garden management forms
-            'garden-sales': 'https://script.google.com/macros/s/AKfycbzVtxBRQcLw3FDyssVYdiRMgDhzOtQiNKyE1FKm5bVT7QMrSD1YYiAWNn66t8lYpdw_/exec',
-            'garden-drawings': 'https://script.google.com/macros/s/AKfycbySJOy7y--_NOqjqvxmmB-dhwsiGZC7YKo-my6jZIJl3GSuw8eEbjYTVu9auMffR1tHoA/exec'
-
             // Sheep forms - replace with actual URLs when created
             'sheep-lambing': '#',
             'sheep-mortality': '#',
             'sheep-purchases': '#',
             'sheep-sales': '#',
             'sheep-drawings': '#',
-    
+            
             // Cow forms - replace with actual URLs when created
             'cow-calving': '#',
             'cow-mortality': '#',
@@ -1597,11 +1635,14 @@
             'milk-production': '#',
             'milk-sales': '#',
             'milk-drawings': '#',
-    
+            
+            // Garden management forms
+            'garden-sales': 'https://script.google.com/macros/s/AKfycbzVtxBRQcLw3FDyssVYdiRMgDhzOtQiNKyE1FKm5bVT7QMrSD1YYiAWNn66t8lYpdw_/exec',
+            'garden-drawings': 'https://script.google.com/macros/s/AKfycbySJOy7y--_NOqjqvxmmB-dhwsiGZC7YKo-my6jZIJl3GSuw8eEbjYTVu9auMffR1tHoA/exec'
         };
 
         // Google Apps Script URL for authentication
-        const authUrl = 'https://script.google.com/macros/s/AKfycbxY5rtt_ZOWt53W0_evikP03r7g0FuoIqBKUMrG4MFh6lFUe_QHKUyKcmdI4CC6sSzV/exec'; // Replace with your actual URL
+        const authUrl = 'https://script.google.com/macros/s/AKfycbxY5rtt_ZOWt53W0_evikP03r7g0FuoIqBKUMrG4MFh6lFUe_QHKUyKcmdI4CC6sSzV/exec';
 
         // Login functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -1616,11 +1657,10 @@
             
             // Password visibility toggle
             passwordToggle.addEventListener('click', function(e) {
-                e.preventDefault(); // Prevent form submission
+                e.preventDefault();
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
                 
-                // Toggle the eye icon
                 const icon = this.querySelector('i');
                 icon.classList.toggle('fa-eye');
                 icon.classList.toggle('fa-eye-slash');
@@ -1633,7 +1673,6 @@
             mobileMenuToggle.addEventListener('click', function() {
                 mainNav.classList.toggle('active');
                 
-                // Change icon
                 const icon = this.querySelector('i');
                 if (mainNav.classList.contains('active')) {
                     icon.classList.remove('fa-bars');
@@ -1781,7 +1820,7 @@
                     const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     badge.setAttribute('data-tooltip', `Last updated at ${timeString}`);
                 });
-            }, 5000); // Update every 5 seconds
+            }, 5000);
         });
 
         // Open form function with loading animation
@@ -1808,67 +1847,5 @@
             }, 1000);
         }
     </script>
-
-    <style>
-        /* Additional styles for ripple effect */
-        .card-button {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple-animation 0.6s ease-out;
-            pointer-events: none;
-        }
-
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* Accessibility improvements */
-        .card-button:focus,
-        .animal-card:focus,
-        nav a:focus {
-            outline: 3px solid var(--yellow);
-            outline-offset: 2px;
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            .card {
-                border: 2px solid var(--dark-gray);
-            }
-            
-            .card-button {
-                border: 2px solid var(--white);
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
